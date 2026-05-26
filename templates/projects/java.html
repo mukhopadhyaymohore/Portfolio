@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Java Projects{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/projects.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="projects-wrap">
+
+  <a href="{% url 'projects' %}" class="back-link">
+    <span class="back-arrow">←</span> Back to Projects
+  </a>
+
+  <div class="page-header fade-up">
+    <p class="breadcrumb">
+      <a href="{% url 'home' %}">HOME</a> &nbsp;›&nbsp;
+      <a href="{% url 'projects' %}">PROJECTS</a> &nbsp;›&nbsp;
+      JAVA · CODSOFT
+    </p>
+    <h1 class="section-title violet">_JAVA · CODSOFT INTERNSHIP</h1>
+    <span class="title-underline violet"></span>
+    <p class="font-mono text-dim" style="font-size:0.72rem;letter-spacing:0.1em;">
+      // Sept 2025 – Oct 2025 &nbsp;·&nbsp; Java · OOP · Console Applications
+    </p>
+  </div>
+
+  <!-- Internship context banner -->
+  <div class="glass-card java-banner violet fade-up">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="java-banner-inner">
+      <div class="java-banner-icon">☕</div>
+      <div>
+        <div class="java-banner-title">Java Developer Intern — CodSoft</div>
+        <div class="java-banner-sub font-mono text-dim">
+          September 2025 – October 2025 &nbsp;·&nbsp; 3 projects delivered
+        </div>
+        <p class="java-banner-desc">
+          Built three Java console applications during the CodSoft internship, applying core OOP principles,
+          file handling, and modular design across each project.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ml-grid fade-up">
+    {% for proj in projects %}
+    <div class="glass-card ml-card {{ proj.color }}">
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
+
+      {% if proj.badge %}
+      <div class="ml-badge {{ proj.color }}">{{ proj.badge }}</div>
+      {% endif %}
+
+      <div class="ml-index font-mono text-dim">
+        {{ forloop.counter|stringformat:"02d" }}
+      </div>
+
+      <div class="ml-name">{{ proj.name }}</div>
+      <p class="ml-detail">{{ proj.detail }}</p>
+
+      <div class="ml-tags">
+        {% for tag in proj.tags %}
+        <span class="tag {{ proj.color }}">{{ tag }}</span>
+        {% endfor %}
+      </div>
+
+      <div class="ml-footer">
+        <a href="{{ proj.github }}" target="_blank" class="ml-github-link {{ proj.color }}">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.32-1.74-1.32-1.74-1.08-.74.08-.72.08-.72 1.2.08 1.82 1.22 1.82 1.22 1.06 1.82 2.8 1.3 3.48.98.1-.76.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.92 0-1.3.46-2.38 1.22-3.22-.12-.3-.52-1.52.12-3.18 0 0 1-.32 3.28 1.22a11.4 11.4 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.54 3.28-1.22 3.28-1.22.64 1.66.24 2.88.12 3.18.76.84 1.22 1.92 1.22 3.22 0 4.6-2.8 5.62-5.48 5.92.44.38.82 1.1.82 2.22v3.3c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>View Source File →</span>
+        </a>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/projects.js' %}"></script>
+<style>
+  .java-banner {
+    margin-bottom: 2.5rem;
+    padding: 1.8rem 2rem;
+  }
+  .java-banner-inner {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  .java-banner-icon {
+    font-size: 2.4rem;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .java-banner-title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .java-banner-sub {
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.8rem;
+  }
+  .java-banner-desc {
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+</style>
+{% endblock %}

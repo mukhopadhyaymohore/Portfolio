@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Experience{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/experience.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="exp-wrap">
+
+  <!-- Header -->
+  <div class="page-header fade-up">
+    <p class="breadcrumb">
+      <a href="{% url 'home' %}">HOME</a> &nbsp;›&nbsp; EXPERIENCE
+    </p>
+    <h1 class="section-title">_EXPERIENCE</h1>
+    <span class="title-underline"></span>
+    <p class="font-mono text-dim" style="font-size:0.72rem;letter-spacing:0.1em;">
+      // <span id="expCounter">{{ experiences|length }}</span> internships &nbsp;·&nbsp; 2025 — 2026
+    </p>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline">
+    {% for exp in experiences %}
+    <div class="timeline-item fade-up">
+
+      <div class="timeline-dot {{ exp.color }}"></div>
+
+      <div class="glass-card exp-card {{ exp.color }}">
+        <div class="corner-tl"></div>
+        <div class="corner-br"></div>
+
+        <!-- Type badge -->
+        <span class="exp-type-badge {{ exp.type }}">
+          {% if exp.type == 'ml' %}ML INTERNSHIP
+          {% elif exp.type == 'research' %}RESEARCH INTERNSHIP
+          {% else %}DEVELOPER INTERNSHIP{% endif %}
+        </span>
+
+        <!-- Header -->
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">{{ exp.role }}</div>
+            <div class="exp-company {{ exp.color }}">◈ {{ exp.company }}</div>
+          </div>
+          <div class="exp-right">
+            <div class="exp-period">{{ exp.period }}</div>
+            <!-- Credential button -->
+            {% if exp.cert %}
+            <button
+              class="exp-cert-btn {{ exp.color }}"
+              onclick="openCred('{% static exp.cert.file %}', '{{ exp.cert.type }}', '{{ exp.company }}')"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 14l-3-3 1.41-1.41L11 12.17l4.59-4.58L17 9l-6 6z"/>
+              </svg>
+              {{ exp.cert.label }}
+            </button>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="exp-divider"></div>
+
+        <!-- Bullets -->
+        <ul class="exp-bullets">
+          {% for bullet in exp.bullets %}
+          <li class="exp-bullet">
+            <div class="bullet-text">{{ bullet.text }}</div>
+            {% if bullet.github %}
+            <div class="bullet-github">
+              <a href="{{ bullet.github }}" target="_blank"
+                 class="cyber-btn {{ exp.color }}"
+                 style="font-size:0.62rem;padding:5px 14px;">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.32-1.74-1.32-1.74-1.08-.74.08-.72.08-.72 1.2.08 1.82 1.22 1.82 1.22 1.06 1.82 2.8 1.3 3.48.98.1-.76.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.92 0-1.3.46-2.38 1.22-3.22-.12-.3-.52-1.52.12-3.18 0 0 1-.32 3.28 1.22a11.4 11.4 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.54 3.28-1.22 3.28-1.22.64 1.66.24 2.88.12 3.18.76.84 1.22 1.92 1.22 3.22 0 4.6-2.8 5.62-5.48 5.92.44.38.82 1.1.82 2.22v3.3c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+                View Repository
+              </a>
+            </div>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+<!-- ── Credential Modal ── -->
+<div class="cred-modal" id="credModal" onclick="closeCredOutside(event)">
+  <div class="cred-modal-inner" id="credModalInner">
+
+    <div class="cred-modal-bar">
+      <span class="font-mono text-dim" style="font-size:0.62rem;letter-spacing:0.16em;">
+        // INTERNSHIP CREDENTIAL — <span id="credModalTitle"></span>
+      </span>
+      <button class="pdf-close-btn" onclick="closeCred()">✕</button>
+    </div>
+
+    <!-- PDF viewer -->
+    <div id="credPdfWrap" class="cred-pdf-wrap" style="display:none;">
+      <iframe id="credPdfFrame" src="" title="Credential PDF"></iframe>
+    </div>
+
+    <!-- Image viewer -->
+    <div id="credImgWrap" class="cred-img-wrap" style="display:none;">
+      <img id="credImg" src="" alt="Credential"/>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/experience.js' %}"></script>
+<script>
+  function openCred(src, type, company) {
+    document.getElementById('credModalTitle').textContent = company.toUpperCase();
+    const pdfWrap = document.getElementById('credPdfWrap');
+    const imgWrap = document.getElementById('credImgWrap');
+
+    if (type === 'pdf') {
+      document.getElementById('credPdfFrame').src = src;
+      pdfWrap.style.display = 'block';
+      imgWrap.style.display = 'none';
+    } else {
+      document.getElementById('credImg').src = src;
+      imgWrap.style.display = 'flex';
+      pdfWrap.style.display = 'none';
+    }
+
+    document.getElementById('credModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCred() {
+    document.getElementById('credModal').classList.remove('open');
+    document.getElementById('credPdfFrame').src = '';
+    document.getElementById('credImg').src = '';
+    document.body.style.overflow = '';
+  }
+
+  function closeCredOutside(e) {
+    if (e.target === document.getElementById('credModal')) closeCred();
+  }
+</script>
+
+<style>
+  /* Cert button */
+  .exp-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .exp-cert-btn {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border: 1px solid;
+    background: transparent;
+    cursor: pointer;
+    clip-path: polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .exp-cert-btn.cyan {
+    color: var(--cyber-cyan);
+    border-color: rgba(0,255,231,0.35);
+  }
+  .exp-cert-btn.cyan:hover {
+    background: var(--cyber-cyan);
+    color: var(--void);
+    box-shadow: var(--glow-cyan);
+  }
+
+  .exp-cert-btn.magenta {
+    color: var(--cyber-magenta);
+    border-color: rgba(255,0,170,0.35);
+  }
+  .exp-cert-btn.magenta:hover {
+    background: var(--cyber-magenta);
+    color: var(--void);
+    box-shadow: var(--glow-magenta);
+  }
+
+  .exp-cert-btn.violet {
+    color: var(--cyber-violet);
+    border-color: rgba(124,0,255,0.35);
+  }
+  .exp-cert-btn.violet:hover {
+    background: var(--cyber-violet);
+    color: var(--void);
+    box-shadow: var(--glow-violet);
+  }
+
+  /* Credential modal */
+  .cred-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: rgba(0,0,5,0.92);
+    backdrop-filter: blur(16px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .cred-modal.open { display: flex; }
+
+  .cred-modal-inner {
+    width: 100%;
+    max-width: 860px;
+    max-height: 88vh;
+    background: var(--card-bg);
+    border: 1px solid rgba(0,255,231,0.2);
+    box-shadow: var(--glow-cyan);
+    display: flex;
+    flex-direction: column;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .cred-modal-bar {
+    padding: 10px 16px;
+    background: rgba(0,255,231,0.04);
+    border-bottom: 1px solid rgba(0,255,231,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .cred-pdf-wrap {
+    flex: 1;
+    overflow: hidden;
+  }
+  .cred-pdf-wrap iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 70vh;
+    border: none;
+    display: block;
+  }
+
+  .cred-img-wrap {
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(0,0,8,0.6);
+    overflow: auto;
+  }
+  .cred-img-wrap img {
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border: 1px solid rgba(0,255,231,0.1);
+    box-shadow: var(--glow-cyan);
+  }
+</style>
+{% endblock %}

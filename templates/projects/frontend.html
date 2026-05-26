@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Frontend Projects{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/projects.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="projects-wrap">
+
+  <a href="{% url 'projects' %}" class="back-link">
+    <span class="back-arrow">←</span> Back to Projects
+  </a>
+
+  <div class="page-header fade-up">
+    <p class="breadcrumb">
+      <a href="{% url 'home' %}">HOME</a> &nbsp;›&nbsp;
+      <a href="{% url 'projects' %}">PROJECTS</a> &nbsp;›&nbsp;
+      FRONTEND MINI
+    </p>
+    <h1 class="section-title magenta">_FRONTEND MINI PROJECTS</h1>
+    <span class="title-underline magenta"></span>
+    <p class="font-mono text-dim" style="font-size:0.72rem;letter-spacing:0.1em;">
+      // HTML · CSS · JavaScript · Live Deployed
+    </p>
+  </div>
+
+  <div class="fe-grid">
+    {% for proj in projects %}
+    <div class="glass-card fe-card {{ proj.color }} fade-up">
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
+
+      <!-- Video / preview window -->
+      <div class="fe-preview">
+        <div class="fe-window-bar">
+          <div class="window-dot"></div>
+          <div class="window-dot"></div>
+          <div class="window-dot"></div>
+          {% if proj.live_url %}
+          <span class="window-url">{{ proj.live_url }}</span>
+          <a href="{{ proj.live_url }}" target="_blank" class="window-open-btn">↗</a>
+          {% endif %}
+        </div>
+
+        {% if proj.video %}
+        <video
+          src="{% proj.video %}"
+          autoplay muted loop playsinline
+          class="fe-video">
+        </video>
+        {% elif proj.live_url %}
+        <iframe
+          src="{{ proj.live_url }}"
+          title="{{ proj.name }}"
+          loading="lazy"
+          class="fe-iframe"
+          sandbox="allow-scripts allow-same-origin">
+        </iframe>
+        {% endif %}
+      </div>
+
+      <!-- Info -->
+      <div class="fe-info">
+        <div class="fe-name">{{ proj.name }}</div>
+        <p class="fe-detail">{{ proj.detail }}</p>
+
+        <div class="ml-tags" style="margin-bottom:0.8rem;">
+          {% for tag in proj.tags %}
+          <span class="tag {{ proj.color }}">{{ tag }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="fe-links">
+          {% if proj.live_url %}
+          <a href="{{ proj.live_url }}" target="_blank" class="cyber-btn {{ proj.color }}">
+            ⬢ &nbsp; Live Demo
+          </a>
+          {% endif %}
+          {% if proj.github %}
+          <a href="{{ proj.github }}" target="_blank" class="cyber-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.32-1.74-1.32-1.74-1.08-.74.08-.72.08-.72 1.2.08 1.82 1.22 1.82 1.22 1.06 1.82 2.8 1.3 3.48.98.1-.76.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.92 0-1.3.46-2.38 1.22-3.22-.12-.3-.52-1.52.12-3.18 0 0 1-.32 3.28 1.22a11.4 11.4 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.54 3.28-1.22 3.28-1.22.64 1.66.24 2.88.12 3.18.76.84 1.22 1.92 1.22 3.22 0 4.6-2.8 5.62-5.48 5.92.44.38.82 1.1.82 2.22v3.3c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            GitHub
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/projects.js' %}"></script>
+<style>
+  .fe-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+/* 3rd card (Moon Wheel) centered */
+.fe-grid .fe-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .fe-grid { grid-template-columns: 1fr; }
+  .fe-grid .fe-card:last-child:nth-child(odd) {
+    grid-column: auto;
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+  .fe-card {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s;
+  }
+  .fe-card:hover { transform: translateY(-4px); }
+
+  .fe-preview {
+    border-bottom: 1px solid rgba(0,255,231,0.08);
+    background: #050010;
+    overflow: hidden;
+  }
+
+  .fe-window-bar {
+    background: rgba(0,255,231,0.04);
+    border-bottom: 1px solid rgba(0,255,231,0.08);
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .window-dot { width:8px; height:8px; border-radius:50%; }
+  .window-dot:nth-child(1) { background:rgba(255,95,86,0.7); }
+  .window-dot:nth-child(2) { background:rgba(255,189,46,0.7); }
+  .window-dot:nth-child(3) { background:rgba(39,201,63,0.7); }
+
+  .window-url {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    color: var(--text-dim);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .window-open-btn {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cyber-cyan);
+    text-decoration: none;
+    transition: text-shadow 0.2s;
+  }
+  .window-open-btn:hover { text-shadow: var(--glow-cyan); }
+
+  .fe-video {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .fe-iframe {
+    width: 100%;
+    height: 240px;
+    border: none;
+    display: block;
+  }
+
+  .fe-info {
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .fe-name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+  }
+
+  .fe-detail {
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.75;
+  }
+
+  .fe-links {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(0,255,231,0.07);
+  }
+
+  @media (max-width: 600px) {
+    .fe-grid { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}

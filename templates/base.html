@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Mohore Mukhopadhyay — ML Engineer, Quantum Computing Researcher, Full-Stack Developer"/>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/logo.svg' %}"/>
+  <title>{% block title %}MM Portfolio{% endblock %}</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Base CSS -->
+  <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/nav.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/particles.css' %}"/>
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- Three.js cosmos canvas -->
+  <canvas id="cosmos-bg"></canvas>
+
+  <!-- Atmospheric overlays -->
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+  <div class="hex-overlay"></div>
+
+  <!-- Particle field -->
+  <div class="particle-field">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="data-line"></div>
+    <div class="data-line"></div>
+    <div class="data-line"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="cyber-nav" id="mainNav">
+    <div class="nav-brand">
+      <a href="{% url 'home' %}" class="nav-brand-link">
+        <span class="nav-glitch" data-text="MM">MM</span>
+      </a>
+    </div>
+
+    <button class="nav-hamburger" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="nav-links">
+      {% for link in NAV_LINKS %}
+      <li>
+        <a href="{% url link.url_name %}"
+           class="nav-link {% if request.resolver_match.url_name == link.url_name %}active{% endif %}">
+          {{ link.label }}
+        </a>
+      </li>
+      {% endfor %}
+
+      <!-- Projects dropdown -->
+      <li class="nav-dropdown">
+        <a href="{% url 'projects' %}"
+           class="nav-link {% if 'project' in request.resolver_match.url_name %}active{% endif %}">
+          _PROJECTS
+        </a>
+        <ul class="dropdown-menu">
+          {% for link in PROJECT_LINKS %}
+          <li>
+            <a href="{% url link.url_name %}">{{ link.label }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      <span class="status-text">ONLINE</span>
+    </div>
+  </nav>
+
+  <!-- Django messages (flash) -->
+  {% if messages %}
+  <div class="flash-container">
+    {% for message in messages %}
+    <div class="flash-message flash-{{ message.tags }}">
+      <span class="flash-icon">{% if 'success' in message.tags %}✓{% else %}✗{% endif %}</span>
+      <span class="flash-text">{{ message }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Page content -->
+  <main class="page-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="cyber-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-name">{{ SITE_NAME }}</span>
+        <span class="footer-tagline">{{ SITE_TAGLINE }}</span>
+      </div>
+      <div class="footer-links">
+        <a href="{{ GITHUB_URL }}"   target="_blank" class="footer-link">GitHub</a>
+        <a href="{{ LINKEDIN_URL }}" target="_blank" class="footer-link">LinkedIn</a>
+        <a href="{{ LEETCODE_URL }}" target="_blank" class="footer-link">LeetCode</a>
+        <a href="mailto:{{ EMAIL }}"                 class="footer-link">Email</a>
+      </div>
+      <div class="footer-copy">
+        <span class="font-mono text-dim" style="font-size:0.6rem;letter-spacing:0.14em;">
+          © {% now "Y" %} {{ SITE_NAME }} · KOLKATA, IN
+        </span>
+      </div>
+    </div>
+    <div class="footer-line"></div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{% static 'js/three_bg.js' %}"></script>
+  <script src="{% static 'js/glitch.js' %}"></script>
+  <script src="{% static 'js/nav.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+
+  <style>
+    /* Flash messages */
+    .flash-container {
+      position: fixed;
+      top: 80px; right: 1.5rem;
+      z-index: 5000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .flash-message {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      padding: 10px 18px;
+      border: 1px solid;
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 280px;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    }
+    .flash-message.flash-success {
+      color: var(--neon-green);
+      border-color: rgba(0,255,136,0.3);
+      background: rgba(0,255,136,0.05);
+    }
+    .flash-message.flash-error {
+      color: var(--cyber-magenta);
+      border-color: rgba(255,0,170,0.3);
+      background: rgba(255,0,170,0.05);
+    }
+
+    /* Footer */
+    .cyber-footer {
+      position: relative;
+      z-index: 10;
+      margin-top: 2rem;
+      background: rgba(0,0,5,0.9);
+      border-top: 1px solid rgba(0,255,231,0.08);
+    }
+    .footer-line {
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent, var(--cyber-cyan) 20%,
+        var(--cyber-magenta) 50%,
+        var(--cyber-violet) 80%, transparent);
+      opacity: 0.4;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .footer-name {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--cyber-cyan);
+      text-shadow: var(--glow-cyan);
+    }
+    .footer-tagline {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      color: var(--text-dim);
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .footer-link {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+    .footer-link:hover {
+      color: var(--cyber-cyan);
+      text-shadow: var(--glow-cyan);
+    }
+  </style>
+  <!-- ── Background Music ── -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://res.cloudinary.com/daepdfown/video/upload/v1779767303/background_ok5vbn.mp3" type="audio/mpeg"/>
+  </audio>
+  <script src="{% static 'js/music.js' %}"></script>
+  <!-- ── Music toggle button ── -->
+  <div class="music-toggle" id="musicToggle" title="Toggle music">
+    <div class="music-toggle-inner">
+      <div class="music-icon" id="musicIcon">
+        <!-- Sound ON icon -->
+        <svg id="iconOn" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        <!-- Sound OFF icon -->
+        <svg id="iconOff" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="display:none;">
+          <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+        </svg>
+      </div>
+      <!-- Visualiser bars -->
+      <div class="music-bars" id="musicBars">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <!-- <span class="music-label" id="musicLabel">MUSIC</span> -->
+  </div>
+</body>
+</html>

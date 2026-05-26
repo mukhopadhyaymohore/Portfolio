@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Hardware Projects{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/projects.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="projects-wrap">
+
+  <a href="{% url 'projects' %}" class="back-link">
+    <span class="back-arrow">←</span> Back to Projects
+  </a>
+
+  <div class="page-header fade-up">
+    <p class="breadcrumb">
+      <a href="{% url 'home' %}">HOME</a> &nbsp;›&nbsp;
+      <a href="{% url 'projects' %}">PROJECTS</a> &nbsp;›&nbsp;
+      HARDWARE
+    </p>
+    <h1 class="section-title gold">_HARDWARE · ESP32</h1>
+    <span class="title-underline gold"></span>
+    <p class="font-mono text-dim" style="font-size:0.72rem;letter-spacing:0.1em;">
+      // {{ projects|length }} projects &nbsp;·&nbsp; ESP32 · Arduino · TinyML · PlatformIO
+    </p>
+  </div>
+
+  <div class="hw-project-list">
+    {% for proj in projects %}
+    <div class="glass-card hw-project-card {{ proj.color }} fade-up">
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
+
+      <!-- Left: media -->
+      <div class="hw-media-col">
+
+        {% if proj.video %}
+        <!-- Video -->
+        <div class="hw-media-slot hw-video-slot">
+          <video
+            src="{% proj.video %}"
+            autoplay muted loop playsinline
+            class="hw-video">
+          </video>
+          {% if proj.dummy %}
+          <div class="hw-dummy-overlay">
+            <!-- <span class="font-mono" style="font-size:0.62rem;color:var(--star-gold);letter-spacing:0.12em;">
+              CODE REPO PENDING
+            </span> -->
+          </div>
+          {% endif %}
+        </div>
+
+        {% elif proj.images %}
+        <!-- Image grid -->
+        <div class="hw-img-grid">
+          {% for img in proj.images %}
+          <div class="hw-img-slot">
+            <img src="{% static img %}" alt="{{ proj.name }} photo {{ forloop.counter }}"/>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% else %}
+        <!-- Placeholder -->
+        <div class="hw-img-grid">
+          <div class="hw-img-slot hw-placeholder">
+            <span style="font-size:2rem;opacity:0.2;">📷</span>
+            <span class="font-mono text-dim" style="font-size:0.58rem;letter-spacing:0.1em;">PHOTO SOON</span>
+          </div>
+          <div class="hw-img-slot hw-placeholder">
+            <span style="font-size:2rem;opacity:0.2;">📷</span>
+            <span class="font-mono text-dim" style="font-size:0.58rem;letter-spacing:0.1em;">PHOTO SOON</span>
+          </div>
+        </div>
+        {% endif %}
+
+      </div>
+
+      <!-- Right: info -->
+      <div class="hw-info-col">
+
+        <div class="hw-proj-index font-mono text-dim">
+          {{ forloop.counter|stringformat:"02d" }} / {{ projects|length|stringformat:"02d" }}
+        </div>
+
+        <div class="hw-proj-name">{{ proj.name }}</div>
+        <p class="hw-proj-detail">{{ proj.detail }}</p>
+
+        <div class="hw-proj-tags">
+          {% for tag in proj.tags %}
+          <span class="tag {{ proj.color }}">{{ tag }}</span>
+          {% endfor %}
+        </div>
+
+        <!-- Links -->
+        <div class="hw-proj-links">
+          {% if proj.github %}
+          <a href="{{ proj.github }}" target="_blank" class="cyber-btn {{ proj.color }}">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.32-1.74-1.32-1.74-1.08-.74.08-.72.08-.72 1.2.08 1.82 1.22 1.82 1.22 1.06 1.82 2.8 1.3 3.48.98.1-.76.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.92 0-1.3.46-2.38 1.22-3.22-.12-.3-.52-1.52.12-3.18 0 0 1-.32 3.28 1.22a11.4 11.4 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.54 3.28-1.22 3.28-1.22.64 1.66.24 2.88.12 3.18.76.84 1.22 1.92 1.22 3.22 0 4.6-2.8 5.62-5.48 5.92.44.38.82 1.1.82 2.22v3.3c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            GitHub
+          </a>
+          {% endif %}
+
+          {% if proj.linkedin %}
+          <a href="{{ proj.linkedin }}" target="_blank" class="cyber-btn magenta">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
+              <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/>
+            </svg>
+            LinkedIn Post
+          </a>
+          {% endif %}
+
+          {% if proj.dummy %}
+          <!-- <span class="hw-dummy-tag font-mono">
+            // Code repo pending
+          </span> -->
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/projects.js' %}"></script>
+<style>
+  /* ── Hardware project list ── */
+  .hw-project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .hw-project-card {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 0;
+    overflow: hidden;
+    min-height: 280px;
+  }
+
+  /* ── Media column ── */
+  .hw-media-col {
+    border-right: 1px solid rgba(0,255,231,0.08);
+    overflow: hidden;
+    background: rgba(0,0,8,0.6);
+  }
+
+  .hw-img-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    height: 100%;
+  }
+
+  .hw-img-slot {
+    overflow: hidden;
+    position: relative;
+    border-right: 1px solid rgba(0,255,231,0.05);
+    border-bottom: 1px solid rgba(0,255,231,0.05);
+    min-height: 140px;
+  }
+
+  .hw-img-slot img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.85) contrast(1.05);
+    transition: transform 0.4s, filter 0.4s;
+  }
+
+  .hw-img-slot:hover img {
+    transform: scale(1.04);
+    filter: saturate(1) contrast(1.1);
+  }
+
+  .hw-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(0,255,231,0.02);
+    border: 1px dashed rgba(0,255,231,0.1);
+  }
+
+  /* Video slot */
+  .hw-video-slot {
+    position: relative;
+    height: 100%;
+    min-height: 280px;
+  }
+
+  .hw-video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hw-dummy-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgba(255,215,0,0.2);
+  }
+
+  /* ── Info column ── */
+  .hw-info-col {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .hw-proj-index {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    opacity: 0.4;
+  }
+
+  .hw-proj-name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    letter-spacing: 0.09em;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .hw-proj-detail {
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.75;
+    flex: 1;
+  }
+
+  .hw-proj-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .hw-proj-links {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(0,255,231,0.07);
+  }
+
+  .hw-dummy-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hw-project-card {
+      grid-template-columns: 1fr;
+    }
+    .hw-media-col {
+      border-right: none;
+      border-bottom: 1px solid rgba(0,255,231,0.08);
+      min-height: 200px;
+    }
+    .hw-video-slot { min-height: 200px; }
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Projects{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/projects.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="projects-hub">
+  <div class="section-wrap" style="padding-top:2rem;">
+
+    <div class="page-header fade-up">
+      <p class="breadcrumb"><a href="{% url 'home' %}">HOME</a> &nbsp;›&nbsp; PROJECTS</p>
+      <h1 class="section-title">_PROJECTS</h1>
+      <span class="title-underline"></span>
+      <p class="font-mono text-dim" style="font-size:0.72rem;letter-spacing:0.1em;">
+        // 7 domains · select to explore
+      </p>
+    </div>
+
+    <!-- Row 1 — main domains -->
+    <div class="hub-grid fade-up">
+
+      <a href="{% url 'projects_fullstack' %}" class="glass-card hub-card cyan">
+        <div class="corner-tl"></div><div class="corner-br"></div>
+        <span class="hub-card-icon">⬢</span>
+        <div class="hub-card-title">FULL STACK</div>
+        <div class="hub-card-desc">Django · Python · React · SQLite · Render<br/>Production-deployed web apps with live demos.</div>
+        <div class="hub-card-count text-cyan">// 2 PROJECTS</div>
+        <span class="hub-card-arrow text-cyan">→</span>
+      </a>
+
+      <a href="{% url 'projects_ml' %}" class="glass-card hub-card magenta">
+        <div class="corner-tl"></div><div class="corner-br"></div>
+        <span class="hub-card-icon">◈</span>
+        <div class="hub-card-title">ML / DL</div>
+        <div class="hub-card-desc">Scikit-learn · XGBoost · SHAP · SMOTE<br/>Classification, prediction and explainability.</div>
+        <div class="hub-card-count text-magenta">// 10 PROJECTS</div>
+        <span class="hub-card-arrow text-magenta">→</span>
+      </a>
+
+      <a href="{% url 'projects_quantum' %}" class="glass-card hub-card violet">
+        <div class="corner-tl"></div><div class="corner-br"></div>
+        <span class="hub-card-icon">⬡</span>
+        <div class="hub-card-title">QUANTUM COMPUTING</div>
+        <div class="hub-card-desc">Qiskit · PennyLane · QUBO · CVaR-QAOA<br/>Hybrid quantum-classical algorithms.</div>
+        <div class="hub-card-count text-violet">// 3 PROJECTS</div>
+        <span class="hub-card-arrow text-violet">→</span>
+      </a>
+
+      <a href="{% url 'projects_hardware' %}" class="glass-card hub-card gold">
+        <div class="corner-tl"></div><div class="corner-br"></div>
+        <span class="hub-card-icon">◉</span>
+        <div class="hub-card-title">HARDWARE · ESP32</div>
+        <div class="hub-card-desc">ESP32 · TensorFlow Lite · PlatformIO · C++<br/>TinyML on edge hardware.</div>
+        <div class="hub-card-count text-gold">// 4 PROJECTS</div>
+        <span class="hub-card-arrow text-gold">→</span>
+      </a>
+
+    </div>
+
+    <!-- Divider -->
+    <div class="hub-divider fade-up">// MORE DOMAINS</div>
+
+    <!-- Row 2 — additional domains -->
+    <div class="hub-grid hub-grid-3 fade-up">
+
+      <a href="{% url 'projects_python' %}" class="glass-card hub-card cyan">
+        <div class="corner-tl"></div><div class="corner-br"></div>
+        <span class="hub-card-icon">🐍</span>
+        <div class="hub-card-title">PYTHON PROJECTS</div>
+        <div class="hub-card-desc">Python scripts and utilities — password manager, automation and more being added.</div>
+        <div class="hub-card-count text-cyan">// 1+ PROJECTS</div>
+        <span class="hub-card-arrow text-cyan">→</span>
+      </a>
+
+      <a href="{% url 'projects_java' %}" class="glass-card hub-card violet">
+        <div class="corner-tl"></div><div class="corner-br"></div>
+        <span class="hub-card-icon">☕</span>
+        <div class="hub-card-title">JAVA PROJECTS</div>
+        <div class="hub-card-desc">Java OOP internship projects — ATM Interface, Number Game, Student Management.</div>
+        <div class="hub-card-count text-violet">// 3 PROJECTS</div>
+        <span class="hub-card-arrow text-violet">→</span>
+      </a>
+
+      <a href="{% url 'projects_frontend' %}" class="glass-card hub-card magenta">
+        <div class="corner-tl"></div><div class="corner-br"></div>
+        <span class="hub-card-icon">⟨/⟩</span>
+        <div class="hub-card-title">FRONTEND MINI PROJECTS</div>
+        <div class="hub-card-desc">HTML · CSS · JS — CyberQuiz and Encrypt-Decrypt Simulator with live demos.</div>
+        <div class="hub-card-count text-magenta">// 2 PROJECTS</div>
+        <span class="hub-card-arrow text-magenta">→</span>
+      </a>
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/projects.js' %}"></script>
+<style>
+  .hub-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .hub-divider {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 2.5rem 0 1.5rem;
+  }
+  .hub-divider::before,
+  .hub-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,255,231,0.15), transparent);
+  }
+  @media (max-width: 768px) {
+    .hub-grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}

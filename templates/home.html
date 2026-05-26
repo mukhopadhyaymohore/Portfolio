@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+
+  <!-- Decorative hexagons -->
+  <div class="hex-deco hex-1"></div>
+  <div class="hex-deco hex-2"></div>
+  <div class="hex-deco hex-3"></div>
+
+  <div class="hero-inner">
+
+    <!-- ── Photo ── -->
+    <div class="hero-photo-wrap">
+      <div class="photo-ring-outer"></div>
+      <div class="photo-ring-inner"></div>
+      <div class="photo-frame" id="photoFrame">
+        <img
+          src="{% static 'images/mohore.jpg' %}"
+          alt="Mohore Mukhopadhyay"
+          class="hero-photo"
+          onerror="document.getElementById('photoFrame').classList.add('no-photo')"
+        />
+        <div class="photo-placeholder">MM</div>
+      </div>
+      <div class="photo-scan-line"></div>
+    </div>
+
+    <!-- ── Text ── -->
+    <div class="hero-text">
+
+      <div class="hero-label" data-glitch data-glitch-auto data-glitch-delay="1200" data-glitch-interval="8000">
+        [ SYSTEM INITIALIZED · PORTFOLIO LOADED ]
+      </div>
+
+      <h1 class="hero-name">
+        <span class="name-line-1">MOHORE</span>
+        <span class="name-line-2">MUKHOPADHYAY</span>
+      </h1>
+
+      <div class="hero-subtitle">
+        <span class="sub-bracket">//</span>
+        <span id="typedRole"></span>
+        <span class="sub-cursor">█</span>
+      </div>
+
+      <p class="hero-bio">
+        B.Tech Computer Science & Engineering · IoT × CyberSecurity × BCT<br/>
+        Future Institute of Technology, Kolkata (2023 - 2027)<br/>
+        <!-- &nbsp;·&nbsp; CGPA: <span class="text-cyan">8.65</span><br/> -->
+        Patha Bhavan, Kolkata (2008 - 2023)
+        <!-- Quantum researcher · ML practitioner · ACM Secretary · MLSA -->
+        <!-- &nbsp;·&nbsp; ISC: <span class="text-cyan">92.4%</span> · ICSE: <span class="text-cyan">94.8%</span><br/> -->
+      </p>
+
+      <!-- Social links -->
+      <div class="hero-links">
+        <a href="{{ GITHUB_URL }}" target="_blank" class="hero-social-btn github">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.32-1.74-1.32-1.74-1.08-.74.08-.72.08-.72 1.2.08 1.82 1.22 1.82 1.22 1.06 1.82 2.8 1.3 3.48.98.1-.76.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.92 0-1.3.46-2.38 1.22-3.22-.12-.3-.52-1.52.12-3.18 0 0 1-.32 3.28 1.22a11.4 11.4 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.54 3.28-1.22 3.28-1.22.64 1.66.24 2.88.12 3.18.76.84 1.22 1.92 1.22 3.22 0 4.6-2.8 5.62-5.48 5.92.44.38.82 1.1.82 2.22v3.3c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub
+        </a>
+        <a href="{{ LINKEDIN_URL }}" target="_blank" class="hero-social-btn linkedin">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/>
+          </svg>
+          LinkedIn
+        </a>
+        <a href="{{ LEETCODE_URL }}" target="_blank" class="hero-social-btn leetcode">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M16.102 17.93l-2.697 2.607c-.466.467-1.111.662-1.823.662s-1.357-.195-1.824-.662l-4.332-4.363c-.467-.467-.702-1.15-.702-1.863s.235-1.357.702-1.824l4.319-4.38c.467-.467 1.125-.645 1.837-.645s1.357.195 1.823.662l2.697 2.606c.514.515 1.365.497 1.9-.038.535-.536.553-1.387.039-1.901l-2.609-2.519c-.569-.569-1.244-.98-1.98-1.22l2.405-2.405c.515-.515.515-1.365 0-1.9s-1.365-.515-1.9 0l-14 14c-.515.515-.515 1.365 0 1.9s1.365.515 1.9 0l3.102-3.102c.55.485 1.177.87 1.864 1.116l-2.609 2.519c-.514.514-.496 1.365.039 1.9.535.535 1.386.553 1.9.038l2.697-2.606c.514-.515 1.365-.497 1.9.038z"/>
+          </svg>
+          LeetCode
+        </a>
+      </div>
+
+      <!-- Navigation shortcut cards -->
+      <div class="hero-nav-cards">
+        <a href="{% url 'experience' %}"   class="hnc"><span class="hnc-icon">⬡</span><span class="hnc-label">EXPERIENCE</span><span class="hnc-arrow">→</span></a>
+        <a href="{% url 'projects' %}"     class="hnc"><span class="hnc-icon">⬡</span><span class="hnc-label">PROJECTS</span><span class="hnc-arrow">→</span></a>
+        <a href="{% url 'research' %}"     class="hnc"><span class="hnc-icon">⬡</span><span class="hnc-label">RESEARCH</span><span class="hnc-arrow">→</span></a>
+        <a href="{% url 'skills' %}"       class="hnc"><span class="hnc-icon">⬡</span><span class="hnc-label">SKILLS</span><span class="hnc-arrow">→</span></a>
+        <a href="{% url 'achievements' %}" class="hnc"><span class="hnc-icon">⬡</span><span class="hnc-label">ACHIEVEMENTS</span><span class="hnc-arrow">→</span></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HUD bar -->
+  <div class="hero-hud">
+    <span class="hud-item">LAT: 22.5726°N</span>
+    <span class="hud-sep">·</span>
+    <span class="hud-item">LON: 88.3639°E</span>
+    <span class="hud-sep">·</span>
+    <span class="hud-item">KOLKATA, IN</span>
+    <span class="hud-sep">·</span>
+    <span class="hud-item" id="hudDate"></span>
+    <span class="hud-sep">·</span>
+    <span class="hud-item" id="hudClock"></span>
+  </div>
+
+</section>
+
+<!-- ── Contact section (bottom of home) ── -->
+<section class="contact-section" id="contact">
+  <div class="section-wrap">
+
+    <div class="page-header fade-up">
+      <p class="section-title magenta">_CONTACT</p>
+      <span class="title-underline magenta"></span>
+    </div>
+
+    <div class="contact-grid fade-up">
+
+      <div class="contact-info">
+        <p class="contact-info-label">// OPEN TO</p>
+        <ul class="contact-open-list">
+          <li><span class="text-cyan">›</span> Research internships</li>
+          <li><span class="text-cyan">›</span> Quantum / ML collaborations</li>
+          <li><span class="text-cyan">›</span> Open source projects</li>
+          <li><span class="text-cyan">›</span> Technical writing opportunities</li>
+          <li><span class="text-cyan">›</span> Conference presentations</li>
+        </ul>
+
+        <div class="contact-info-links">
+          <a href="mailto:{{ EMAIL }}" class="contact-direct-link">
+            <span class="text-cyan">✉</span> {{ EMAIL }}
+          </a>
+          <a href="{{ LINKEDIN_URL }}" target="_blank" class="contact-direct-link">
+            <span class="text-cyan">in</span> LinkedIn
+          </a>
+          <a href="{{ GITHUB_URL }}" target="_blank" class="contact-direct-link">
+            <span class="text-cyan">⌥</span> GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap glass-card">
+        <div class="corner-tl"></div>
+        <div class="corner-br"></div>
+        <div class="contact-form-header">
+          <span class="font-mono text-dim" style="font-size:0.65rem;letter-spacing:0.16em;">
+            // TRANSMIT MESSAGE
+          </span>
+        </div>
+        <form method="POST" action="{% url 'contact' %}" class="contact-form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="form-label" for="name">NAME</label>
+            <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required autocomplete="off"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">EMAIL</label>
+            <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required autocomplete="off"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subject">SUBJECT</label>
+            <input type="text" id="subject" name="subject" class="form-input" placeholder="What's this about?" autocomplete="off"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">MESSAGE</label>
+            <textarea id="message" name="message" class="form-input form-textarea" placeholder="Your message..." required rows="5"></textarea>
+          </div>
+          <button type="submit" class="cyber-btn" style="width:100%;justify-content:center;">
+            ⟶ &nbsp; TRANSMIT
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/home.js' %}"></script>
+<style>
+  /* Contact section */
+  .contact-section {
+    position: relative;
+    z-index: 10;
+    padding: 0 0 4rem;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .contact-info-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+    margin-bottom: 1.2rem;
+  }
+  .contact-open-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .contact-open-list li {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .contact-info-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .contact-direct-link {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.2s;
+  }
+  .contact-direct-link:hover { color: var(--cyber-cyan); }
+
+  /* Form */
+  .contact-form-wrap { padding: 2rem; }
+  .contact-form-header { margin-bottom: 1.5rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+  }
+  .form-input {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    color: var(--text-primary);
+    background: rgba(0,255,231,0.03);
+    border: 1px solid rgba(0,255,231,0.15);
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    resize: none;
+  }
+  .form-input::placeholder { color: var(--text-dim); opacity: 0.6; }
+  .form-input:focus {
+    border-color: var(--cyber-cyan);
+    box-shadow: 0 0 12px rgba(0,255,231,0.15);
+  }
+  .form-textarea { min-height: 120px; }
+
+  @media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}

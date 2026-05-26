@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Full Stack Projects{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/projects.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="projects-wrap">
+
+  <a href="{% url 'projects' %}" class="back-link">
+    <span class="back-arrow">←</span> Back to Projects
+  </a>
+
+  <div class="page-header fade-up">
+    <p class="breadcrumb">
+      <a href="{% url 'home' %}">HOME</a> &nbsp;›&nbsp;
+      <a href="{% url 'projects' %}">PROJECTS</a> &nbsp;›&nbsp;
+      FULL STACK
+    </p>
+    <h1 class="section-title">_FULL STACK</h1>
+    <span class="title-underline"></span>
+    <p class="font-mono text-dim" style="font-size:0.72rem;letter-spacing:0.1em;">
+      // Django · Python · SQLite3 · Render · {{ projects|length }} projects
+    </p>
+  </div>
+
+  <div class="fs-grid">
+    {% for proj in projects %}
+    <div class="glass-card fs-card {{ proj.color }} fade-up">
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
+
+      <!-- Preview window -->
+      <div class="fs-preview-window">
+        <div class="fs-window-bar">
+          <div class="window-dot"></div>
+          <div class="window-dot"></div>
+          <div class="window-dot"></div>
+          {% if proj.live_url %}
+          <span class="window-url">{{ proj.live_url }}</span>
+          <a href="{{ proj.live_url }}" target="_blank" class="window-open-btn">↗</a>
+          {% endif %}
+        </div>
+
+        <!-- Video demo -->
+        {% if proj.video %}
+        <div class="fs-video-wrap">
+          <video
+            src="{% proj.video %}"
+            autoplay muted loop playsinline
+            class="fs-video">
+          </video>
+        </div>
+        {% else %}
+        <!-- Fallback live placeholder -->
+        <div class="fs-live-preview-wrap">
+          <a href="{{ proj.live_url }}" target="_blank" class="fs-live-link-overlay">
+            <div class="fs-live-placeholder">
+              <div class="fs-live-pulse">
+                <span class="fs-live-dot"></span>
+                <span class="font-mono" style="font-size:0.65rem;letter-spacing:0.14em;color:var(--neon-green);">
+                  LIVE ON RENDER
+                </span>
+              </div>
+              <div class="fs-live-url">{{ proj.live_url }}</div>
+              <div class="cyber-btn" style="margin-top:0.5rem;pointer-events:none;">
+                ↗ &nbsp; OPEN LIVE SITE
+              </div>
+            </div>
+          </a>
+        </div>
+        {% endif %}
+
+      </div>
+
+      <!-- Project info -->
+      <div class="fs-card-info">
+        <div class="fs-card-name">{{ proj.name }}</div>
+        <p class="fs-card-tagline">{{ proj.tagline }}</p>
+        <div class="fs-card-actions">
+          {% if proj.live_url %}
+          <a href="{{ proj.live_url }}" target="_blank" class="cyber-btn {{ proj.color }}">
+            ⬢ &nbsp; Live Demo
+          </a>
+          {% endif %}
+          {% if proj.github %}
+          <a href="{{ proj.github }}" target="_blank" class="cyber-btn magenta">
+            ⌥ &nbsp; GitHub
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/projects.js' %}"></script>
+<style>
+  .fs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+    gap: 2rem;
+  }
+
+  .fs-card { overflow: hidden; }
+
+  /* Window bar */
+  .fs-preview-window {
+    border-bottom: 1px solid rgba(0,255,231,0.1);
+    overflow: hidden;
+  }
+
+  .fs-window-bar {
+    background: rgba(0,255,231,0.04);
+    border-bottom: 1px solid rgba(0,255,231,0.08);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .window-dot { width:8px; height:8px; border-radius:50%; }
+  .window-dot:nth-child(1) { background: rgba(255,95,86,0.7); }
+  .window-dot:nth-child(2) { background: rgba(255,189,46,0.7); }
+  .window-dot:nth-child(3) { background: rgba(39,201,63,0.7); }
+
+  .window-url {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.07em;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .window-open-btn {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cyber-cyan);
+    text-decoration: none;
+    padding: 0 4px;
+    transition: text-shadow 0.2s;
+  }
+  .window-open-btn:hover { text-shadow: var(--glow-cyan); }
+
+  /* Video */
+  .fs-video-wrap {
+    height: 280px;
+    overflow: hidden;
+    background: #050010;
+  }
+  .fs-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center top;
+    display: block;
+    background: #050010;
+  }
+
+  /* Live placeholder fallback */
+  .fs-live-preview-wrap {
+    height: 280px;
+    background: rgba(0,0,10,0.8);
+    border-bottom: 1px solid rgba(0,255,231,0.08);
+  }
+  .fs-live-link-overlay {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  .fs-live-link-overlay:hover { background: rgba(0,255,231,0.03); }
+  .fs-live-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .fs-live-pulse { display: flex; align-items: center; gap: 10px; }
+  .fs-live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--neon-green);
+    box-shadow: 0 0 10px var(--neon-green);
+    animation: statusPulse 2s ease-in-out infinite;
+  }
+  .fs-live-url {
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+  }
+
+  /* Info block */
+  .fs-card-info { padding: 1.5rem 2rem; }
+  .fs-card-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+  .fs-card-tagline {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+  .fs-card-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+  @media (max-width: 600px) {
+    .fs-grid { grid-template-columns: 1fr; }
+    .fs-video-wrap { height: 200px; }
+  }
+</style>
+{% endblock %}

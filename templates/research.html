@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Research Papers{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/research.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="research-wrap">
+
+  <!-- Header -->
+  <div class="page-header fade-up">
+    <p class="breadcrumb">
+      <a href="{% url 'home' %}">HOME</a> &nbsp;›&nbsp; RESEARCH
+    </p>
+    <h1 class="section-title magenta">_RESEARCH PAPERS</h1>
+    <span class="title-underline magenta"></span>
+  </div>
+
+  <!-- Stats row -->
+  <div class="research-stats glass-card fade-up">
+    <div class="stat-item">
+      <span class="stat-number text-cyan" data-target="2">0</span>
+      <span class="stat-label">PAPERS PUBLISHED</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number text-magenta" data-target="2">0</span>
+      <span class="stat-label">CONFERENCES</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number text-violet" data-target="2">0</span>
+      <span class="stat-label">INSTITUTIONS</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number text-gold" data-target="2025">0</span>
+      <span class="stat-label">YEAR</span>
+    </div>
+  </div>
+
+  <!-- Papers -->
+  {% for paper in papers %}
+  <div class="glass-card paper-card {{ paper.color }} fade-up">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+
+    <div class="paper-inner">
+
+      <!-- ── Left: details ── -->
+      <div class="paper-details">
+
+        <h2 class="paper-title">{{ paper.title }}</h2>
+
+        <!-- Meta grid -->
+        <div class="paper-meta">
+          <div class="meta-item">
+            <span class="meta-label">CONFERENCE</span>
+            <span class="meta-value {{ paper.color }}">{{ paper.conference }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">DATE</span>
+            <span class="meta-value">{{ paper.date }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">LOCATION</span>
+            <span class="meta-value">{{ paper.location }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">ISSUED BY</span>
+            <span class="meta-value">{{ paper.issued_by }}</span>
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="paper-tags">
+          {% for tag in paper.tags %}
+          <span class="tag {{ paper.color }}">{{ tag }}</span>
+          {% endfor %}
+        </div>
+
+        <!-- Links -->
+        <div class="paper-links">
+          {% for link in paper.links %}
+          <a href="{{ link.url }}" target="_blank"
+             class="cyber-btn {% if link.type == 'linkedin' %}magenta{% elif link.type == 'researchgate' %}cyan{% else %}{% endif %}">
+
+            {% if link.type == 'linkedin' %}
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
+              <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/>
+            </svg>
+
+            {% elif link.type == 'researchgate' %}
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
+              <path d="M19.586 0H4.414C1.973 0 0 1.973 0 4.414v15.172C0 22.026 1.973 24 4.414 24h15.172C22.026 24 24 22.026 24 19.586V4.414C24 1.973 22.026 0 19.586 0zM10.878 15.373c-.24.487-.619.9-1.09 1.166-.472.266-1.014.4-1.594.4-1.1 0-2.033-.39-2.739-1.16-.71-.774-1.069-1.808-1.069-3.075 0-1.311.37-2.373 1.101-3.156.727-.78 1.69-1.174 2.857-1.174.574 0 1.097.12 1.554.354.457.236.812.55 1.055.934.244.384.368.791.368 1.212 0 .145-.035.261-.105.343-.07.082-.17.123-.298.123-.146 0-.265-.048-.352-.143-.087-.094-.152-.257-.193-.483-.079-.434-.264-.77-.551-1.002-.287-.233-.669-.35-1.138-.35-.773 0-1.385.284-1.82.846-.433.562-.652 1.351-.652 2.344 0 1.01.218 1.804.649 2.362.432.558 1.03.84 1.779.84.487 0 .912-.12 1.265-.358.354-.238.621-.594.796-1.06.07-.19.145-.326.222-.404.077-.077.18-.116.305-.116.136 0 .247.047.33.141.083.094.125.21.125.348-.001.335-.123.671-.365 1.167zm7.35-3.75h-2.854v2.88h-1.08v-2.88h-2.853v-1.08h2.853V7.69h1.08v2.853h2.854v1.08z"/>
+            </svg>
+
+            {% endif %}
+            {{ link.label }}
+          </a>
+          {% endfor %}
+        </div>
+
+      </div>
+
+      <!-- ── Right: certificate image ── -->
+      <div class="paper-cert-col">
+        <div class="paper-cert-label font-mono text-dim">
+          // CONFERENCE CERTIFICATE
+        </div>
+        <div class="paper-cert-frame {{ paper.color }}"
+             onclick="openCertModal('{% static paper.cert_img %}', '{{ paper.conference }}')">
+          <img
+            src="{% static paper.cert_img %}"
+            alt="{{ paper.conference }} certificate"
+            class="paper-cert-img"
+          />
+          <div class="paper-cert-overlay">
+            <span class="paper-cert-zoom">⤢ VIEW</span>
+          </div>
+        </div>
+        <div class="paper-cert-hint font-mono text-dim">
+          click to enlarge
+        </div>
+      </div>
+
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+
+<!-- Certificate modal -->
+<div class="cert-modal" id="certModal" onclick="closeCertOutside(event)">
+  <div class="cert-modal-inner">
+    <div class="cert-modal-bar">
+      <span class="font-mono text-dim" id="certModalTitle"
+        style="font-size:0.62rem;letter-spacing:0.14em;">
+        // CONFERENCE CERTIFICATE
+      </span>
+      <button class="pdf-close-btn" onclick="closeCertModal()">✕</button>
+    </div>
+    <div class="cert-modal-img-wrap">
+      <img id="certModalImg" src="" alt="Certificate"/>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  /* ── Scroll reveal ── */
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 120);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  /* ── Stat counters ── */
+  const cObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el     = entry.target;
+        const target = parseInt(el.getAttribute('data-target'), 10);
+        const dur    = 1200;
+        const step   = target / (dur / 16);
+        let   cur    = 0;
+        const tick   = () => {
+          cur += step;
+          if (cur >= target) { el.textContent = target; return; }
+          el.textContent = Math.floor(cur);
+          requestAnimationFrame(tick);
+        };
+        tick();
+        cObs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-target]').forEach(el => cObs.observe(el));
+
+  /* ── Certificate modal ── */
+  function openCertModal(src, title) {
+    document.getElementById('certModalImg').src   = src;
+    document.getElementById('certModalTitle').textContent = '// ' + title.toUpperCase();
+    document.getElementById('certModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCertModal() {
+    document.getElementById('certModal').classList.remove('open');
+    document.getElementById('certModalImg').src = '';
+    document.body.style.overflow = '';
+  }
+
+  function closeCertOutside(e) {
+    if (e.target === document.getElementById('certModal')) closeCertModal();
+  }
+</script>
+{% endblock %}

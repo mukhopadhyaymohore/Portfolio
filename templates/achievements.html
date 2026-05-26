@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Achievements{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/achievements.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="achieve-wrap">
+
+  <!-- ── Header ── -->
+  <div class="page-header fade-up">
+    <p class="breadcrumb"><a href="{% url 'home' %}">HOME</a> &nbsp;›&nbsp; ACHIEVEMENTS</p>
+    <h1 class="section-title gold">_ACHIEVEMENTS</h1>
+    <span class="title-underline gold"></span>
+  </div>
+
+  <!-- ══════════════════════════
+       01 · ACADEMIC
+  ══════════════════════════ -->
+  <div class="achieve-section-label fade-up">// 01 &nbsp; ACADEMIC</div>
+  <div class="academic-grid">
+    {% for item in academic %}
+    <div class="glass-card academic-card {{ item.color }} fade-up">
+      <div class="corner-tl"></div><div class="corner-br"></div>
+      <div class="academic-header">
+        <span class="academic-icon">{{ item.icon }}</span>
+        <div class="academic-header-text">
+          <div class="academic-title">{{ item.title }}</div>
+          <div class="academic-subtitle {{ item.color }}">{{ item.subtitle }}</div>
+        </div>
+      </div>
+      <p class="academic-detail">{{ item.detail }}</p>
+      {% if item.images %}
+      <div class="academic-img-grid">
+        {% for img in item.images %}
+        <div class="academic-img-slot">
+          <img src="{% static img %}" alt="{{ item.title }} {{ forloop.counter }}"/>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if item.links %}
+      <div class="academic-links">
+        {% for link in item.links %}
+        <a href="{{ link.url }}" target="_blank" class="cyber-btn {% if link.type != 'github' %}magenta{% endif %}">
+          {% if link.type == 'github' %}
+          <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.32-1.74-1.32-1.74-1.08-.74.08-.72.08-.72 1.2.08 1.82 1.22 1.82 1.22 1.06 1.82 2.8 1.3 3.48.98.1-.76.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.92 0-1.3.46-2.38 1.22-3.22-.12-.3-.52-1.52.12-3.18 0 0 1-.32 3.28 1.22a11.4 11.4 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.54 3.28-1.22 3.28-1.22.64 1.66.24 2.88.12 3.18.76.84 1.22 1.92 1.22 3.22 0 4.6-2.8 5.62-5.48 5.92.44.38.82 1.1.82 2.22v3.3c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          {% endif %}
+          {{ link.label }}
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ══════════════════════════
+       02 · IEEE PEER REVIEW
+  ══════════════════════════ -->
+  <div class="achieve-section-label fade-up" style="margin-top:4rem;">// 02 &nbsp; IEEE PEER REVIEW</div>
+  <div class="peer-review-grid">
+    {% for rev in peer_review %}
+    <div class="glass-card peer-card {{ rev.color }} fade-up">
+      <div class="corner-tl"></div><div class="corner-br"></div>
+
+      <div class="peer-header">
+        <div class="peer-badge-wrap">
+          <div class="peer-ieee-badge">IEEE</div>
+          <div class="peer-role">{{ rev.role }}</div>
+        </div>
+        <div class="peer-status-wrap">
+          <span class="peer-status-dot"></span>
+          <span class="peer-status">{{ rev.status }}</span>
+        </div>
+      </div>
+
+      <div class="peer-meta-row">
+        <div class="peer-meta-item">
+          <span class="peer-meta-label">PAPER ID</span>
+          <span class="peer-meta-value text-gold">{{ rev.paper_id }}</span>
+        </div>
+        <div class="peer-meta-item">
+          <span class="peer-meta-label">REVIEWER</span>
+          <span class="peer-meta-value text-cyan">{{ rev.reviewer_id }}</span>
+        </div>
+        <div class="peer-meta-item">
+          <span class="peer-meta-label">CONFERENCE</span>
+          <span class="peer-meta-value">{{ rev.conference }}</span>
+        </div>
+        <div class="peer-meta-item">
+          <span class="peer-meta-label">VERDICT</span>
+          <span class="peer-meta-value text-gold">{{ rev.status_note }}</span>
+        </div>
+      </div>
+
+      <div class="peer-title">{{ rev.paper_title }}</div>
+      <p class="peer-detail">{{ rev.detail }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ══════════════════════════
+       03 · OPEN SOURCE
+  ══════════════════════════ -->
+  <div class="achieve-section-label fade-up" style="margin-top:4rem;">// 03 &nbsp; OPEN SOURCE CONTRIBUTIONS</div>
+  <div class="os-contrib-grid">
+    {% for os in opensource %}
+    <div class="glass-card os-contrib-card {{ os.color }} fade-up">
+      <div class="corner-tl"></div><div class="corner-br"></div>
+
+      <div class="os-contrib-header">
+        <div class="os-contrib-name">{{ os.name }}</div>
+        <div class="os-contrib-role {{ os.color }}">{{ os.role }}</div>
+      </div>
+
+      <!-- Badge/cert images with hover effect -->
+      {% if os.images %}
+      <div class="os-img-grid os-img-{{ os.images|length }}">
+        {% for img in os.images %}
+        <div class="os-img-slot {% if os.type == 'cert' %}os-cert-slot{% else %}os-badge-slot{% endif %}">
+          <img src="{% static img %}" alt="{{ os.name }} {{ forloop.counter }}"/>
+          <div class="os-img-overlay">
+            <span>{% if os.type == 'cert' %}CERTIFICATE{% else %}BADGE{% endif %}</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if os.linkedin %}
+      <div style="margin-top:auto;padding-top:0.8rem;border-top:1px solid rgba(0,255,231,0.07);">
+        <a href="{{ os.linkedin }}" target="_blank" class="ml-github-link magenta">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn Post →
+        </a>
+      </div>
+      {% endif %}
+
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ══════════════════════════
+       04 · CERTIFICATIONS
+  ══════════════════════════ -->
+  <div class="achieve-section-label fade-up" style="margin-top:4rem;">// 04 &nbsp; CERTIFICATIONS</div>
+  {% for cert in certifications %}
+  <div class="glass-card cert-feature-card {{ cert.color }} fade-up">
+    <div class="corner-tl"></div><div class="corner-br"></div>
+    <div class="cert-feature-inner">
+      <div class="cert-feature-info">
+        <span class="cert-feature-icon">{{ cert.icon }}</span>
+        <div class="cert-feature-name">{{ cert.name }}</div>
+        <div class="cert-feature-issuer {{ cert.color }}">{{ cert.issuer }}</div>
+        <p class="cert-feature-detail">{{ cert.detail }}</p>
+        {% if cert.linkedin %}
+        <a href="{{ cert.linkedin }}" target="_blank" class="cyber-btn magenta" style="margin-top:auto;">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          View on LinkedIn
+        </a>
+        {% endif %}
+      </div>
+      <div class="cert-feature-imgs">
+        {% for img in cert.images %}
+        <div class="cert-img-slot">
+          <img src="{% static img %}" alt="{{ cert.name }} {{ forloop.counter }}"/>
+          <div class="os-img-overlay">
+            <span>{% if forloop.last %}CERTIFICATE{% else %}BADGE{% endif %}</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- ══════════════════════════
+       05 · NEWSLETTER FEATURES
+  ══════════════════════════ -->
+  <div class="achieve-section-label fade-up" style="margin-top:4rem;">// 05 &nbsp; NEWSLETTER FEATURES</div>
+  <div class="newsletter-grid">
+    {% for nl in newsletter %}
+    <div class="glass-card newsletter-card {{ nl.color }} fade-up">
+      <div class="corner-tl"></div><div class="corner-br"></div>
+      <div class="nl-month {{ nl.color }}">{{ nl.month }}</div>
+      <div class="nl-title">{{ nl.title }}</div>
+      <p class="nl-detail">{{ nl.detail }}</p>
+      <div class="nl-img-wrap">
+        <img src="{% static nl.image %}" alt="{{ nl.title }}"/>
+        <div class="nl-img-overlay">
+          <span class="font-mono" style="font-size:0.6rem;letter-spacing:0.14em;">FEATURED</span>
+        </div>
+      </div>
+      <a href="{{ nl.linkedin }}" target="_blank" class="cyber-btn {{ nl.color }}" style="margin-top:0.5rem;">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        View Post
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ══════════════════════════
+       06 · QUANTUM EXTRAS
+  ══════════════════════════ -->
+  <div class="achieve-section-label fade-up" style="margin-top:4rem;">// 06 &nbsp; QUANTUM LEARNING</div>
+  <div class="quantum-extra-grid">
+    {% for qe in quantum_extra %}
+    <div class="glass-card quantum-extra-card {{ qe.color }} fade-up">
+      <div class="corner-tl"></div><div class="corner-br"></div>
+      <div class="qe-header">
+        <span class="qe-icon">{{ qe.icon }}</span>
+        <div class="qe-title">{{ qe.title }}</div>
+      </div>
+      <p class="qe-detail">{{ qe.detail }}</p>
+      {% if qe.images %}
+      <div class="qe-img-grid">
+        {% for img in qe.images %}
+        <div class="qe-img-slot">
+          <img src="{% static img %}" alt="{{ qe.title }} {{ forloop.counter }}"/>
+          <div class="os-img-overlay"><span>VIEW</span></div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if qe.linkedin %}
+      <a href="{{ qe.linkedin }}" target="_blank" class="cyber-btn {{ qe.color }}" style="margin-top:0.8rem;">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        LinkedIn Post
+      </a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ══════════════════════════
+       07 · LEADERSHIP
+  ══════════════════════════ -->
+  <div class="achieve-section-label fade-up" style="margin-top:4rem;">// 07 &nbsp; LEADERSHIP</div>
+  <div class="leadership-list">
+    {% for role in leadership %}
+    <div class="glass-card leadership-card {{ role.color }} fade-up">
+      <div class="corner-tl"></div><div class="corner-br"></div>
+      <div class="lc-inner">
+        <div class="lc-info">
+          <div class="lc-icon {{ role.color }}">{{ role.icon }}</div>
+          <div class="lc-period {{ role.color }}">{{ role.period }}</div>
+          <div class="lc-role">{{ role.role }}</div>
+          <div class="lc-org">{{ role.org }}</div>
+          <p class="lc-detail">{{ role.detail }}</p>
+          {% if role.links %}
+          <div class="lc-links">
+            {% for link in role.links %}
+            <a href="{{ link.url }}" target="_blank"
+               class="cyber-btn {% if link.type == 'linkedin' %}magenta{% endif %}"
+               style="font-size:0.62rem;padding:6px 14px;">
+              {{ link.label }}
+            </a>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="lc-media">
+          {% if role.type == 'badge' or role.type == 'images' %}
+            {% if role.images %}
+            <div class="lc-img-grid lc-img-{{ role.images|length }}">
+              {% for img in role.images %}
+              <div class="lc-img-slot">
+                <img src="{% static img %}" alt="{{ role.role }} {{ forloop.counter }}"/>
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+          {% elif role.type == 'namecard' %}
+          <div class="lc-namecard {{ role.color }}">
+            <div class="lc-namecard-icon">{{ role.icon }}</div>
+            <div class="lc-namecard-role">{{ role.role }}</div>
+            <div class="lc-namecard-org">{{ role.org }}</div>
+            <div class="lc-namecard-period">{{ role.period }}</div>
+            <div class="lc-namecard-name">MOHORE MUKHOPADHYAY</div>
+            <div class="lc-namecard-dots"><span></span><span></span><span></span></div>
+          </div>
+          {% elif role.type == 'articles' %}
+          <div class="lc-articles">
+            {% for article in role.articles %}
+            <a href="{{ article.url }}" target="_blank" class="lc-article-card {{ role.color }}">
+              <div class="lc-article-icon">✍</div>
+              <div class="lc-article-body">
+                <div class="lc-article-label font-mono">ENTANGLED MINDS</div>
+                <div class="lc-article-title">{{ article.title }}</div>
+              </div>
+              <div class="lc-article-arrow">→</div>
+            </a>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  /* ── Scroll reveal ── */
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+{% endblock %}

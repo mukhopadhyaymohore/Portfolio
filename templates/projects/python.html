@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Python Projects{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/projects.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="projects-wrap">
+
+  <a href="{% url 'projects' %}" class="back-link">
+    <span class="back-arrow">←</span> Back to Projects
+  </a>
+
+  <div class="page-header fade-up">
+    <p class="breadcrumb">
+      <a href="{% url 'home' %}">HOME</a> &nbsp;›&nbsp;
+      <a href="{% url 'projects' %}">PROJECTS</a> &nbsp;›&nbsp;
+      PYTHON PROJECTS
+    </p>
+    <h1 class="section-title">_PYTHON PROJECTS</h1>
+    <span class="title-underline"></span>
+    <p class="font-mono text-dim" style="font-size:0.72rem;letter-spacing:0.1em;">
+      // {{ projects|length }} project{% if projects|length != 1 %}s{% endif %} · more being added
+    </p>
+  </div>
+
+  <div class="py-grid">
+    {% for proj in projects %}
+    <div class="glass-card py-card {{ proj.color }} fade-up">
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
+
+      <!-- Video preview -->
+      {% if proj.video %}
+      <div class="py-video-wrap">
+        <div class="py-window-bar">
+          <div class="window-dot"></div>
+          <div class="window-dot"></div>
+          <div class="window-dot"></div>
+          <span class="window-url font-mono text-dim">{{ proj.name }}</span>
+        </div>
+        <video
+          src="{% proj.video %}"
+          autoplay muted loop playsinline
+          class="py-video">
+        </video>
+      </div>
+      {% endif %}
+
+      <!-- Info -->
+      <div class="py-info">
+
+        {% if proj.badge %}
+        <div class="ml-badge {{ proj.color }}">{{ proj.badge }}</div>
+        {% endif %}
+
+        <div class="ml-index font-mono text-dim">
+          {{ forloop.counter|stringformat:"02d" }}
+        </div>
+
+        <div class="ml-name">{{ proj.name }}</div>
+        <p class="ml-detail">{{ proj.detail }}</p>
+
+        <div class="ml-tags">
+          {% for tag in proj.tags %}
+          <span class="tag {{ proj.color }}">{{ tag }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="ml-footer">
+          <div class="py-links">
+            {% if proj.github %}
+            <a href="{{ proj.github }}" target="_blank" class="ml-github-link {{ proj.color }}">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.32-1.74-1.32-1.74-1.08-.74.08-.72.08-.72 1.2.08 1.82 1.22 1.82 1.22 1.06 1.82 2.8 1.3 3.48.98.1-.76.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.92 0-1.3.46-2.38 1.22-3.22-.12-.3-.52-1.52.12-3.18 0 0 1-.32 3.28 1.22a11.4 11.4 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.54 3.28-1.22 3.28-1.22.64 1.66.24 2.88.12 3.18.76.84 1.22 1.92 1.22 3.22 0 4.6-2.8 5.62-5.48 5.92.44.38.82 1.1.82 2.22v3.3c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              GitHub →
+            </a>
+            {% endif %}
+            {% if proj.linkedin %}
+            <a href="{{ proj.linkedin }}" target="_blank" class="ml-github-link magenta">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/>
+              </svg>
+              LinkedIn →
+            </a>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/projects.js' %}"></script>
+<style>
+  .py-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 1.5rem;
+  }
+  .py-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .py-card:hover { transform: translateY(-4px); }
+
+  .py-video-wrap {
+    border-bottom: 1px solid rgba(0,255,231,0.08);
+    overflow: hidden;
+    background: #050010;
+  }
+  .py-window-bar {
+    background: rgba(0,255,231,0.04);
+    border-bottom: 1px solid rgba(0,255,231,0.08);
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .window-dot { width:8px; height:8px; border-radius:50%; }
+  .window-dot:nth-child(1) { background:rgba(255,95,86,0.7); }
+  .window-dot:nth-child(2) { background:rgba(255,189,46,0.7); }
+  .window-dot:nth-child(3) { background:rgba(39,201,63,0.7); }
+
+  .py-video {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+  }
+  .py-info { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .py-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  @media (max-width: 600px) {
+    .py-grid { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}

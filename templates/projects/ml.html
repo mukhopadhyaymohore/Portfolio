@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ML-DL Projects{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/projects.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="projects-wrap">
+
+  <a href="{% url 'projects' %}" class="back-link">
+    <span class="back-arrow">←</span> Back to Projects
+  </a>
+
+  <div class="page-header fade-up">
+    <p class="breadcrumb">
+      <a href="{% url 'home' %}">HOME</a> &nbsp;›&nbsp;
+      <a href="{% url 'projects' %}">PROJECTS</a> &nbsp;›&nbsp;
+      ML / DL
+    </p>
+    <h1 class="section-title magenta">_ML / DL</h1>
+    <span class="title-underline magenta"></span>
+    <p class="font-mono text-dim" style="font-size:0.72rem;letter-spacing:0.1em;">
+      // {{ projects|length }} projects &nbsp;·&nbsp; Scikit-learn · XGBoost · SHAP · SMOTE · OpenCV
+    </p>
+  </div>
+
+  <div class="ml-grid fade-up">
+    {% for proj in projects %}
+    <div class="glass-card ml-card {{ proj.color }}">
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
+
+      <!-- Top accent line colour matched -->
+      <div class="ml-card-top"></div>
+
+      <!-- Badge -->
+      {% if proj.badge %}
+      <div class="ml-badge {{ proj.color }}">{{ proj.badge }}</div>
+      {% endif %}
+
+      <!-- Index -->
+      <div class="ml-index font-mono text-dim">
+        {{ forloop.counter|stringformat:"02d" }}
+      </div>
+
+      <!-- Name -->
+      <div class="ml-name">{{ proj.name }}</div>
+
+      <!-- Detail -->
+      <p class="ml-detail">{{ proj.detail }}</p>
+
+      <!-- Tags -->
+      <div class="ml-tags">
+        {% for tag in proj.tags %}
+        <span class="tag {{ proj.color }}">{{ tag }}</span>
+        {% endfor %}
+      </div>
+
+      <!-- GitHub link -->
+      <div class="ml-footer">
+        <a href="{{ proj.github }}" target="_blank" class="ml-github-link {{ proj.color }}">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.32-1.74-1.32-1.74-1.08-.74.08-.72.08-.72 1.2.08 1.82 1.22 1.82 1.22 1.06 1.82 2.8 1.3 3.48.98.1-.76.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.92 0-1.3.46-2.38 1.22-3.22-.12-.3-.52-1.52.12-3.18 0 0 1-.32 3.28 1.22a11.4 11.4 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.54 3.28-1.22 3.28-1.22.64 1.66.24 2.88.12 3.18.76.84 1.22 1.92 1.22 3.22 0 4.6-2.8 5.62-5.48 5.92.44.38.82 1.1.82 2.22v3.3c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>View on GitHub</span>
+          <span class="ml-link-arrow">→</span>
+        </a>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/projects.js' %}"></script>
+<style>
+  /* ── ML grid ── */
+  .ml-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .ml-card {
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    position: relative;
+    transition: transform 0.3s;
+  }
+
+  .ml-card:hover { transform: translateY(-4px); }
+
+  .ml-index {
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    opacity: 0.4;
+  }
+
+  .ml-name {
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .ml-detail {
+    font-family: var(--font-body);
+    font-size: 0.86rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .ml-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .ml-badge {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.16em;
+    padding: 3px 10px;
+    clip-path: polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+    display: inline-block;
+    align-self: flex-start;
+  }
+  .ml-badge.cyan    { background:rgba(0,255,231,0.08);  color:var(--cyber-cyan);    border:1px solid rgba(0,255,231,0.3);  }
+  .ml-badge.magenta { background:rgba(255,0,170,0.08);  color:var(--cyber-magenta); border:1px solid rgba(255,0,170,0.3);  }
+  .ml-badge.violet  { background:rgba(124,0,255,0.08);  color:var(--cyber-violet);  border:1px solid rgba(124,0,255,0.3);  }
+  .ml-badge.gold    { background:rgba(255,215,0,0.08);  color:var(--star-gold);     border:1px solid rgba(255,215,0,0.3);  }
+
+  /* GitHub link row */
+  .ml-footer {
+    border-top: 1px solid rgba(0,255,231,0.08);
+    padding-top: 0.8rem;
+    margin-top: auto;
+  }
+
+  .ml-github-link {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: gap 0.2s, text-shadow 0.2s;
+  }
+
+  .ml-github-link.cyan    { color: var(--cyber-cyan);    }
+  .ml-github-link.magenta { color: var(--cyber-magenta); }
+  .ml-github-link.violet  { color: var(--cyber-violet);  }
+  .ml-github-link.gold    { color: var(--star-gold);     }
+
+  .ml-github-link:hover { gap: 12px; }
+  .ml-github-link.cyan:hover    { text-shadow: var(--glow-cyan);    }
+  .ml-github-link.magenta:hover { text-shadow: var(--glow-magenta); }
+  .ml-github-link.violet:hover  { text-shadow: var(--glow-violet);  }
+  .ml-github-link.gold:hover    { text-shadow: var(--glow-gold);    }
+
+  .ml-link-arrow { margin-left: auto; }
+
+  @media (max-width: 600px) {
+    .ml-grid { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}

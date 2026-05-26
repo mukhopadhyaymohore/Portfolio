@@ -1,0 +1,516 @@
+/* ============================================
+   COSMOS × CYBERPUNK — BASE
+   ============================================ */
+:root {
+  --void:          #000005;
+  --deep-space:    #020010;
+  --nebula-dark:   #08001a;
+  --cyber-cyan:    #00ffe7;
+  --cyber-magenta: #ff00aa;
+  --cyber-violet:  #7c00ff;
+  --star-gold:     #ffd700;
+  --plasma-blue:   #0077ff;
+  --neon-green:    #00ff88;
+  --text-primary:  #e8eaf6;
+  --text-dim:      #6a6d8a;
+  --text-glow:     #00ffe7;
+  --grid-line:     rgba(0, 255, 231, 0.05);
+  --glass-bg:      rgba(0, 255, 231, 0.03);
+  --glass-border:  rgba(0, 255, 231, 0.15);
+  --card-bg:       rgba(2, 0, 16, 0.88);
+
+  --font-display: 'Orbitron', monospace;
+  --font-mono:    'Share Tech Mono', monospace;
+  --font-body:    'Rajdhani', sans-serif;
+
+  --glow-cyan:    0 0 8px rgba(0,255,231,0.9),
+                  0 0 25px rgba(0,255,231,0.5),
+                  0 0 60px rgba(0,255,231,0.2);
+  --glow-magenta: 0 0 8px rgba(255,0,170,0.9),
+                  0 0 25px rgba(255,0,170,0.5),
+                  0 0 60px rgba(255,0,170,0.2);
+  --glow-violet:  0 0 8px rgba(124,0,255,0.9),
+                  0 0 25px rgba(124,0,255,0.5),
+                  0 0 60px rgba(124,0,255,0.2);
+  --glow-gold:    0 0 8px rgba(255,215,0,0.9),
+                  0 0 25px rgba(255,215,0,0.5);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--void);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: crosshair;
+  min-height: 100vh;
+}
+
+/* ── Three.js canvas ────────────────────────── */
+#cosmos-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Scanlines ──────────────────────────────── */
+.scanlines {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+  animation: scanlineShift 8s linear infinite;
+}
+
+@keyframes scanlineShift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 100px; }
+}
+
+/* ── Vignette ───────────────────────────────── */
+.vignette {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 45%,
+    rgba(0, 0, 5, 0.75) 100%
+  );
+}
+
+/* ── Grid ───────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridDrift 25s linear infinite;
+}
+
+@keyframes gridDrift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 60px 60px; }
+}
+
+/* ── Page content wrapper ───────────────────── */
+.page-content {
+  position: relative;
+  z-index: 10;
+  padding-top: 80px;
+  min-height: 100vh;
+}
+
+/* ── Section wrapper ────────────────────────── */
+.section-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+}
+
+/* ── Typography ─────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
+  color: var(--cyber-cyan);
+  text-shadow: var(--glow-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  position: relative;
+}
+
+.section-title.magenta {
+  color: var(--cyber-magenta);
+  text-shadow: var(--glow-magenta);
+}
+
+.section-title.violet {
+  color: var(--cyber-violet);
+  text-shadow: var(--glow-violet);
+}
+
+.section-title.gold {
+  color: var(--star-gold);
+  text-shadow: var(--glow-gold);
+}
+
+.title-underline {
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyber-cyan), transparent);
+  box-shadow: var(--glow-cyan);
+  margin-bottom: 3rem;
+  margin-top: 6px;
+}
+
+.title-underline.magenta {
+  background: linear-gradient(90deg, var(--cyber-magenta), transparent);
+  box-shadow: var(--glow-magenta);
+}
+
+.title-underline.violet {
+  background: linear-gradient(90deg, var(--cyber-violet), transparent);
+  box-shadow: var(--glow-violet);
+}
+
+/* ── Glass card ─────────────────────────────── */
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s, box-shadow 0.35s;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--cyber-cyan),
+    transparent
+  );
+  opacity: 0.5;
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 255, 231, 0.4);
+  box-shadow: var(--glow-cyan);
+}
+
+.glass-card.magenta::before {
+  background: linear-gradient(90deg, transparent, var(--cyber-magenta), transparent);
+}
+.glass-card.magenta:hover {
+  border-color: rgba(255, 0, 170, 0.4);
+  box-shadow: var(--glow-magenta);
+}
+
+.glass-card.violet::before {
+  background: linear-gradient(90deg, transparent, var(--cyber-violet), transparent);
+}
+.glass-card.violet:hover {
+  border-color: rgba(124, 0, 255, 0.4);
+  box-shadow: var(--glow-violet);
+}
+
+.glass-card.gold::before {
+  background: linear-gradient(90deg, transparent, var(--star-gold), transparent);
+}
+.glass-card.gold:hover {
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow: var(--glow-gold);
+}
+
+/* ── Cyber button ───────────────────────────── */
+.cyber-btn {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyber-cyan);
+  border: 1px solid var(--cyber-cyan);
+  background: transparent;
+  padding: 9px 22px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+.cyber-btn:hover {
+  background: var(--cyber-cyan);
+  color: var(--void);
+  box-shadow: var(--glow-cyan);
+}
+
+.cyber-btn.magenta {
+  color: var(--cyber-magenta);
+  border-color: var(--cyber-magenta);
+}
+.cyber-btn.magenta:hover {
+  background: var(--cyber-magenta);
+  color: var(--void);
+  box-shadow: var(--glow-magenta);
+}
+
+.cyber-btn.violet {
+  color: var(--cyber-violet);
+  border-color: var(--cyber-violet);
+}
+.cyber-btn.violet:hover {
+  background: var(--cyber-violet);
+  color: var(--void);
+  box-shadow: var(--glow-violet);
+}
+
+.cyber-btn.gold {
+  color: var(--star-gold);
+  border-color: var(--star-gold);
+}
+.cyber-btn.gold:hover {
+  background: var(--star-gold);
+  color: var(--void);
+  box-shadow: var(--glow-gold);
+}
+
+/* ── Tag chip ───────────────────────────────── */
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--cyber-violet);
+  border: 1px solid rgba(124, 0, 255, 0.35);
+  padding: 3px 10px;
+  border-radius: 1px;
+  background: rgba(124, 0, 255, 0.07);
+  display: inline-block;
+  margin: 2px;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  border-color: var(--cyber-violet);
+  box-shadow: var(--glow-violet);
+}
+
+.tag.cyan {
+  color: var(--cyber-cyan);
+  border-color: rgba(0, 255, 231, 0.35);
+  background: rgba(0, 255, 231, 0.07);
+}
+.tag.cyan:hover {
+  border-color: var(--cyber-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.tag.magenta {
+  color: var(--cyber-magenta);
+  border-color: rgba(255, 0, 170, 0.35);
+  background: rgba(255, 0, 170, 0.07);
+}
+.tag.magenta:hover {
+  border-color: var(--cyber-magenta);
+  box-shadow: var(--glow-magenta);
+}
+
+.tag.gold {
+  color: var(--star-gold);
+  border-color: rgba(255, 215, 0, 0.35);
+  background: rgba(255, 215, 0, 0.07);
+}
+
+/* ── Page header block ──────────────────────── */
+.page-header {
+  margin-bottom: 3rem;
+}
+
+.page-header .breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  margin-bottom: 0.8rem;
+}
+
+.page-header .breadcrumb a {
+  color: var(--cyber-cyan);
+  text-decoration: none;
+}
+
+.page-header .breadcrumb a:hover {
+  text-shadow: var(--glow-cyan);
+}
+
+/* ── Scrollbar ──────────────────────────────── */
+::-webkit-scrollbar              { width: 4px; }
+::-webkit-scrollbar-track        { background: var(--void); }
+::-webkit-scrollbar-thumb        { background: var(--cyber-violet); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover  { background: var(--cyber-cyan); }
+
+/* ── Utility ────────────────────────────────── */
+.text-cyan    { color: var(--cyber-cyan); }
+.text-magenta { color: var(--cyber-magenta); }
+.text-violet  { color: var(--cyber-violet); }
+.text-gold    { color: var(--star-gold); }
+.text-dim     { color: var(--text-dim); }
+.font-mono    { font-family: var(--font-mono); }
+.font-display { font-family: var(--font-display); }
+
+/* ── Fade-up animation ──────────────────────── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Corner decorations ─────────────────────── */
+.corner-tl,
+.corner-br {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.corner-tl {
+  top: 8px; left: 8px;
+  border-top: 1px solid var(--cyber-cyan);
+  border-left: 1px solid var(--cyber-cyan);
+}
+
+.corner-br {
+  bottom: 8px; right: 8px;
+  border-bottom: 1px solid var(--cyber-cyan);
+  border-right: 1px solid var(--cyber-cyan);
+}
+
+/* ══════════════════════════════════════════════
+   MUSIC TOGGLE
+   ══════════════════════════════════════════════ */
+.music-toggle {
+  position: fixed;
+  bottom: 1.8rem;
+  right: 1.8rem;
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 14px;
+  background: rgba(0, 0, 10, 0.85);
+  border: 1px solid rgba(0, 255, 231, 0.2);
+  backdrop-filter: blur(12px);
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  user-select: none;
+}
+
+.music-toggle:hover {
+  border-color: var(--cyber-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.music-toggle-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.music-icon {
+  color: var(--cyber-cyan);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.music-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  transition: color 0.3s;
+}
+
+.music-toggle:hover .music-label {
+  color: var(--cyber-cyan);
+}
+
+.music-toggle.muted {
+  border-color: rgba(255, 0, 170, 0.2);
+}
+
+.music-toggle.muted:hover {
+  border-color: var(--cyber-magenta);
+  box-shadow: var(--glow-magenta);
+}
+
+.music-toggle.muted .music-icon { color: var(--cyber-magenta); }
+.music-toggle.muted .music-label { color: var(--cyber-magenta); }
+
+/* ── Visualiser bars ── */
+.music-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 16px;
+}
+
+.music-bars span {
+  display: block;
+  width: 3px;
+  background: var(--cyber-cyan);
+  border-radius: 1px;
+  box-shadow: 0 0 4px var(--cyber-cyan);
+  animation: barBounce 0.8s ease-in-out infinite;
+}
+
+.music-bars span:nth-child(1) { height: 6px;  animation-delay: 0s;    }
+.music-bars span:nth-child(2) { height: 12px; animation-delay: 0.1s;  }
+.music-bars span:nth-child(3) { height: 16px; animation-delay: 0.2s;  }
+.music-bars span:nth-child(4) { height: 10px; animation-delay: 0.15s; }
+.music-bars span:nth-child(5) { height: 6px;  animation-delay: 0.05s; }
+
+@keyframes barBounce {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.6; }
+  50%       { transform: scaleY(1);   opacity: 1;   }
+}
+
+/* Paused state — bars freeze */
+.music-toggle.muted .music-bars span {
+  animation-play-state: paused;
+  transform: scaleY(0.3);
+  opacity: 0.3;
+  background: var(--cyber-magenta);
+  box-shadow: 0 0 4px var(--cyber-magenta);
+}
