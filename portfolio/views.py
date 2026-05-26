@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages as django_messages
-from django.core.mail import send_mail
 from django.conf import settings
 from .models import ContactMessage
 
@@ -671,18 +670,6 @@ def contact(request):
                 subject=subject,
                 message=message,
             )
-
-            # Attempt email notification
-            try:
-                send_mail(
-                    subject=f'[Portfolio] {subject or "New message"} — from {name}',
-                    message=f'Name: {name}\nEmail: {email}\n\nMessage:\n{message}',
-                    from_email=settings.EMAIL_HOST_USER or 'noreply@portfolio.dev',
-                    recipient_list=[settings.CONTACT_RECEIVER_EMAIL],
-                    fail_silently=True,
-                )
-            except Exception:
-                pass  # DB save succeeded; email failure is non-critical
 
             django_messages.success(
                 request,
