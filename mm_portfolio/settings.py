@@ -76,15 +76,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Contact form — plug in your email credentials in .env when ready
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # prints to console during dev
-EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
-EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-CONTACT_RECEIVER_EMAIL = config('CONTACT_RECEIVER_EMAIL', default='mohore.mukhopadhyay@gmail.com')
-
 from decouple import config
 import os
 
