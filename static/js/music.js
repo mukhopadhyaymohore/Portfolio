@@ -1,59 +1,87 @@
 /* =============================================
    BACKGROUND MUSIC
-   Starts on first user interaction · Toggle on/off
    ============================================= */
-document.addEventListener('DOMContentLoaded', function () {
-  const music  = document.getElementById('bgMusic');
-  const toggle = document.getElementById('musicToggle');
 
-  if (!music || !toggle) return;
+document.addEventListener('DOMContentLoaded', () => {
 
-  let playing = false;
+    const music = document.getElementById('bgMusic');
+    const toggle = document.getElementById('musicToggle');
 
-  function setPlayingUI() {
-    playing = true;
-    toggle.classList.remove('muted');
-    document.getElementById('iconOn').style.display   = 'block';
-    document.getElementById('iconOff').style.display  = 'none';
-    document.getElementById('musicLabel').textContent = 'MUSIC';
-  }
+    const iconOn = document.getElementById('iconOn');
+    const iconOff = document.getElementById('iconOff');
+    const label = document.getElementById('musicLabel');
 
-  function setMutedUI() {
-    playing = false;
-    toggle.classList.add('muted');
-    document.getElementById('iconOn').style.display   = 'none';
-    document.getElementById('iconOff').style.display  = 'block';
-    document.getElementById('musicLabel').textContent = 'MUTED';
-  }
+    if (!music || !toggle) return;
 
-  function boot(e) {
-    if (playing) return;
+    let playing = false;
+
     music.volume = 0.3;
-    music.play().then(() => {
-      setPlayingUI();
-    }).catch(err => {
-      console.warn('Music blocked:', err);
-    });
-  }
 
-  // Start on first interaction
-  document.body.addEventListener('click',      boot);
-  document.body.addEventListener('mousemove',  boot);
-  document.body.addEventListener('keydown',    boot);
-  document.body.addEventListener('touchstart', boot, { passive: true });
-  document.body.addEventListener('scroll',     boot, { passive: true });
+    function setPlayingUI() {
+        playing = true;
 
-  // Toggle button
-  toggle.addEventListener('click', function (e) {
-    e.stopPropagation();
-    if (playing) {
-      music.pause();
-      setMutedUI();
-    } else {
-      music.volume = 0.3;
-      music.play().then(() => {
-        setPlayingUI();
-      }).catch(err => console.warn('Play failed:', err));
+        toggle.classList.remove('muted');
+
+        if (iconOn) iconOn.style.display = 'block';
+        if (iconOff) iconOff.style.display = 'none';
+        if (label) label.textContent = 'MUSIC';
     }
-  });
+
+    function setMutedUI() {
+        playing = false;
+
+        toggle.classList.add('muted');
+
+        if (iconOn) iconOn.style.display = 'none';
+        if (iconOff) iconOff.style.display = 'block';
+        if (label) label.textContent = 'MUTED';
+    }
+
+    // Start music ONLY once
+    async function startMusicOnce() {
+
+        try {
+
+            await music.play();
+            setPlayingUI();
+
+        } catch (err) {
+
+            console.warn('Autoplay blocked:', err);
+
+        }
+
+        document.removeEventListener('click', startMusicOnce);
+    }
+
+    // First interaction starts music
+    document.addEventListener('click', startMusicOnce, { once: true });
+
+    // Toggle button
+    toggle.addEventListener('click', async (e) => {
+
+        e.stopPropagation();
+
+        try {
+
+            if (playing) {
+
+                music.pause();
+                setMutedUI();
+
+            } else {
+
+                await music.play();
+                setPlayingUI();
+
+            }
+
+        } catch (err) {
+
+            console.warn('Toggle failed:', err);
+
+        }
+
+    });
+
 });
