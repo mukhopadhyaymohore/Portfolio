@@ -94,6 +94,57 @@ def research(request):
     context = {
         'papers': [
             {
+                'title':      'Quantum Machine Learning for Intrusion Detection: Circuit Design, Kernel Analysis, and Comparative Performance Assessment',
+                'conference': 'IEEE ISVLSI 2026 — IEEE Computer Society Annual Symposium on VLSI',
+                'date':       '2026',
+                'location':   'ITC Sonar, Kolkata, West Bengal, India',
+                'issued_by':  'IEEE Computer Society Annual Symposium on VLSI (ISVLSI) 2026 Organizing Committee',
+                'tags':       ['Quantum Machine Learning', 'Intrusion Detection', 'Variational Quantum Circuits', 'Quantum Kernel Methods', 'Cybersecurity'],
+                'color':      'violet',
+                'cert_imgs':  ['images/research/conf4i.jpeg', 'images/research/conf4ii.jpeg'],
+                'links': [
+                    {
+                        'label': 'LinkedIn Post',
+                        'url':   'https://www.linkedin.com/posts/mohore-mukhopadhyay-86a110350_ieee-iitguwahati-research-ugcPost-7471146522819182592-meX_',
+                        'type':  'linkedin',
+                    },
+                ],
+            },
+            {
+                'title':      'Benchmarking Quantum Classifiers for Sonar-Based Mine Detection',
+                'conference': '3rd IEEE Guwahati Subsection Conference (GCON 2026)',
+                'date':       '2026',
+                'location':   'Indian Institute of Technology Guwahati, Assam, India',
+                'issued_by':  'IEEE Guwahati Subsection',
+                'tags':       ['Quantum Classifiers', 'Sonar Data', 'Mine Detection', 'Quantum Machine Learning'],
+                'color':      'gold',
+                'cert_img':   'images/research/conf3.jpeg',
+                'links': [
+                    {
+                        'label': 'LinkedIn Post',
+                        'url':   'https://www.linkedin.com/posts/mohore-mukhopadhyay-86a110350_quantumcomputing-machinelearning-cybersecurity-ugcPost-7485719135209918464-nY1a',
+                        'type':  'linkedin',
+                    },
+                ],
+            },
+            {
+                'title':      'House Price Prediction in Boston: A Comparative Study of Classical and Quantum Machine Learning Approaches',
+                'conference': 'ICDTBESDC\'25 — International Conference on Digital Technologies for Business Excellence and Sustainable Development and Creating Viksit Bharat@2047',
+                'date':       '5th – 6th July 2025',
+                'location':   'Indian Institute of Technology (ISM) Dhanbad, Jharkhand, India',
+                'issued_by':  'Indian Institute of Technology (ISM) Dhanbad',
+                'tags':       ['Quantum ML', 'Classical ML', 'Boston Dataset', 'Comparative Study', 'Qiskit'],
+                'color':      'magenta',
+                'cert_img':   'images/research/conf2.jpg',
+                'links': [
+                    {
+                        'label': 'LinkedIn Post',
+                        'url':   'https://www.linkedin.com/posts/mohore-mukhopadhyay-86a110350_machinelearning-quantumcomputing-linearregression-ugcPost-7347885124950097921-3Q-j',
+                        'type':  'linkedin',
+                    },
+                ],
+            },
+            {
                 'title':      'Quantum Computing and Molecular Stability: A New Frontier in Drug Discovery',
                 'conference': 'NCRTST\'25 — National Conference on Recent Trends in Science and Technology',
                 'date':       '29th – 30th March 2025',
@@ -112,23 +163,6 @@ def research(request):
                         'label': 'ResearchGate',
                         'url':   'https://www.researchgate.net/scientific-contributions/Mohore-Mukhopadhyay-2322485868',
                         'type':  'researchgate',
-                    },
-                ],
-            },
-            {
-                'title':      'House Price Prediction in Boston: A Comparative Study of Classical and Quantum Machine Learning Approaches',
-                'conference': 'ICDTBESDC\'25 — International Conference on Digital Technologies for Business Excellence and Sustainable Development and Creating Viksit Bharat@2047',
-                'date':       '5th – 6th July 2025',
-                'location':   'Indian Institute of Technology (ISM) Dhanbad, Jharkhand, India',
-                'issued_by':  'Indian Institute of Technology (ISM) Dhanbad',
-                'tags':       ['Quantum ML', 'Classical ML', 'Boston Dataset', 'Comparative Study', 'Qiskit'],
-                'color':      'magenta',
-                'cert_img':   'images/research/conf2.jpg',
-                'links': [
-                    {
-                        'label': 'LinkedIn Post',
-                        'url':   'https://www.linkedin.com/posts/mohore-mukhopadhyay-86a110350_machinelearning-quantumcomputing-linearregression-ugcPost-7347885124950097921-3Q-j',
-                        'type':  'linkedin',
                     },
                 ],
             },
