@@ -54,8 +54,12 @@
 
 .paper-card.cyan::after    { background: var(--cyber-cyan);    }
 .paper-card.magenta::after { background: var(--cyber-magenta); }
+.paper-card.violet::after  { background: var(--cyber-violet);  }
+.paper-card.gold::after    { background: var(--star-gold);     }
 .paper-card.cyan:hover::after    { box-shadow: var(--glow-cyan);    }
 .paper-card.magenta:hover::after { box-shadow: var(--glow-magenta); }
+.paper-card.violet:hover::after  { box-shadow: var(--glow-violet);  }
+.paper-card.gold:hover::after    { box-shadow: var(--glow-gold);    }
 
 /* ── Two-column inner layout ────────────────── */
 .paper-inner {
@@ -119,6 +123,8 @@
 
 .meta-value.cyan    { color: var(--cyber-cyan);    }
 .meta-value.magenta { color: var(--cyber-magenta); }
+.meta-value.violet  { color: var(--cyber-violet);  }
+.meta-value.gold    { color: var(--star-gold);     }
 
 /* Tags */
 .paper-tags {
@@ -174,6 +180,39 @@
 .paper-cert-frame.magenta:hover {
   box-shadow: var(--glow-magenta);
   transform: scale(1.02);
+}
+
+.paper-cert-frame.violet {
+  border-color: rgba(124,0,255,0.2);
+}
+.paper-cert-frame.violet:hover {
+  box-shadow: var(--glow-violet);
+  transform: scale(1.02);
+}
+
+.paper-cert-frame.gold {
+  border-color: rgba(255,215,0,0.2);
+}
+.paper-cert-frame.gold:hover {
+  box-shadow: var(--glow-gold);
+  transform: scale(1.02);
+}
+
+/* Side-by-side layout for papers with multiple certificate images */
+.paper-cert-frame-group {
+  display: flex;
+  gap: 0.6rem;
+  width: 100%;
+}
+.paper-cert-frame-group .paper-cert-frame {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .paper-cert-frame-group {
+    flex-direction: column;
+  }
 }
 
 .paper-cert-img {
