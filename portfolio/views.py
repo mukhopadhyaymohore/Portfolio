@@ -105,7 +105,7 @@ def research(request):
                 'links': [
                     {
                         'label': 'LinkedIn Post',
-                        'url':   'https://www.linkedin.com/posts/mohore-mukhopadhyay-86a110350_ieee-iitguwahati-research-ugcPost-7471146522819182592-meX_',
+                        'url':   'https://www.linkedin.com/posts/mohore-mukhopadhyay-86a110350_quantumcomputing-machinelearning-cybersecurity-ugcPost-7485719135209918464-nY1a',
                         'type':  'linkedin',
                     },
                 ],
@@ -122,7 +122,7 @@ def research(request):
                 'links': [
                     {
                         'label': 'LinkedIn Post',
-                        'url':   'https://www.linkedin.com/posts/mohore-mukhopadhyay-86a110350_quantumcomputing-machinelearning-cybersecurity-ugcPost-7485719135209918464-nY1a',
+                        'url':   'https://www.linkedin.com/posts/mohore-mukhopadhyay-86a110350_ieee-iitguwahati-research-ugcPost-7471146522819182592-meX_',
                         'type':  'linkedin',
                     },
                 ],
