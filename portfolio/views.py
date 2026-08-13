@@ -96,7 +96,7 @@ def research(request):
             {
                 'title':      'Quantum Machine Learning for Intrusion Detection: Circuit Design, Kernel Analysis, and Comparative Performance Assessment',
                 'conference': 'IEEE ISVLSI 2026 — IEEE Computer Society Annual Symposium on VLSI',
-                'date':       '2026',
+                'date':       '7th – 10th July 2026',
                 'location':   'ITC Sonar, Kolkata, West Bengal, India',
                 'issued_by':  'IEEE Computer Society Annual Symposium on VLSI (ISVLSI) 2026 Organizing Committee',
                 'tags':       ['Quantum Machine Learning', 'Intrusion Detection', 'Variational Quantum Circuits', 'Quantum Kernel Methods', 'Cybersecurity'],
@@ -113,7 +113,7 @@ def research(request):
             {
                 'title':      'Benchmarking Quantum Classifiers for Sonar-Based Mine Detection',
                 'conference': '3rd IEEE Guwahati Subsection Conference (GCON 2026)',
-                'date':       '2026',
+                'date':       '3rd - 5th June 2026',
                 'location':   'Indian Institute of Technology Guwahati, Assam, India',
                 'issued_by':  'IEEE Guwahati Subsection',
                 'tags':       ['Quantum Classifiers', 'Sonar Data', 'Mine Detection', 'Quantum Machine Learning'],
