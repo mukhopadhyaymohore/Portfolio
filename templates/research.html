@@ -22,19 +22,19 @@
   <!-- Stats row -->
   <div class="research-stats glass-card fade-up">
     <div class="stat-item">
-      <span class="stat-number text-cyan" data-target="2">0</span>
+      <span class="stat-number text-cyan" data-target="4">0</span>
       <span class="stat-label">PAPERS PUBLISHED</span>
     </div>
     <div class="stat-item">
-      <span class="stat-number text-magenta" data-target="2">0</span>
+      <span class="stat-number text-magenta" data-target="4">0</span>
       <span class="stat-label">CONFERENCES</span>
     </div>
     <div class="stat-item">
-      <span class="stat-number text-violet" data-target="2">0</span>
+      <span class="stat-number text-violet" data-target="4">0</span>
       <span class="stat-label">INSTITUTIONS</span>
     </div>
     <div class="stat-item">
-      <span class="stat-number text-gold" data-target="2025">0</span>
+      <span class="stat-number text-gold" data-target="2026">0</span>
       <span class="stat-label">YEAR</span>
     </div>
   </div>
@@ -108,6 +108,23 @@
         <div class="paper-cert-label font-mono text-dim">
           // CONFERENCE CERTIFICATE
         </div>
+        {% if paper.cert_imgs %}
+        <div class="paper-cert-frame-group">
+          {% for img in paper.cert_imgs %}
+          <div class="paper-cert-frame {{ paper.color }}"
+               onclick="openCertModal('{% static img %}', '{{ paper.conference }}')">
+            <img
+              src="{% static img %}"
+              alt="{{ paper.conference }} certificate"
+              class="paper-cert-img"
+            />
+            <div class="paper-cert-overlay">
+              <span class="paper-cert-zoom">⤢ VIEW</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
         <div class="paper-cert-frame {{ paper.color }}"
              onclick="openCertModal('{% static paper.cert_img %}', '{{ paper.conference }}')">
           <img
@@ -119,6 +136,7 @@
             <span class="paper-cert-zoom">⤢ VIEW</span>
           </div>
         </div>
+        {% endif %}
         <div class="paper-cert-hint font-mono text-dim">
           click to enlarge
         </div>
