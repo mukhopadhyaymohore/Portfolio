@@ -125,6 +125,11 @@ def research(request):
                         'url':   'https://www.linkedin.com/posts/mohore-mukhopadhyay-86a110350_ieee-iitguwahati-research-ugcPost-7471146522819182592-meX_',
                         'type':  'linkedin',
                     },
+                    {
+                        'label': 'IEEE Xplore',
+                        'url':   'https://ieeexplore.ieee.org/document/11648339',
+                        'type':  'ieeexplore',
+                    },
                 ],
             },
             {
